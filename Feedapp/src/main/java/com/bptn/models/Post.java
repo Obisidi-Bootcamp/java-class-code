@@ -29,6 +29,7 @@ public class Post {
     }
 
     public Post(String postID, String postType, String post, String username){
+        super();
         this.postID = postID;
         this.postType = postType;
         this.post = post;

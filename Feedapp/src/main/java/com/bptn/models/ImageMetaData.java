@@ -39,7 +39,7 @@ public class ImageMetaData {
 
     public ImageMetaData(String imageid, String imagename, String imagesize, String imageformat, String imagedate,
                          String resolution, String postkey){
-
+        super();
         this.imageid = imageid;
         this.imagename = imagename;
         this.imagesize = imagesize;
