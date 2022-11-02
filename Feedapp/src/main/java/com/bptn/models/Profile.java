@@ -19,7 +19,7 @@ public class Profile {
     private String companyaddress;
 
     @Column(name = "\"interests\"" )
-    private String interets;
+    private String interests;
 
     @Column(name = "\"experience\"" )
     private String experience;
@@ -45,12 +45,12 @@ public class Profile {
         super();
     }
 
-    public Profile(String position, String company, String companyaddress, String interets, String experience, String education, String certification, String skills, String languages, String username) {
+    public Profile(String position, String company, String companyaddress, String interests, String experience, String education, String certification, String skills, String languages, String username) {
         super();
         this.position = position;
         this.company = company;
         this.companyaddress = companyaddress;
-        this.interets = interets;
+        this.interests = interests;
         this.experience = experience;
         this.education = education;
         this.certification = certification;
@@ -83,12 +83,12 @@ public class Profile {
         this.companyaddress = companyaddress;
     }
 
-    public String getInterets() {
-        return interets;
+    public String getinterests() {
+        return interests;
     }
 
-    public void setInterets(String interets) {
-        this.interets = interets;
+    public void setinterests(String interests) {
+        this.interests = interests;
     }
 
     public String getExperience() {
