@@ -53,10 +53,8 @@ import java.util.Random;
 
         private String generatePostId(FeedPostRequest feedPostRequest) {
             Random random = new Random(System.currentTimeMillis());
-            StringBuilder postIdBuilder = new StringBuilder();
-            postIdBuilder.append(random.nextInt());
-            postIdBuilder.append(Objects.hashCode(feedPostRequest.getUserName() + " " + feedPostRequest.getQueryKeyword()));
-            String postId = postIdBuilder.toString();
+            String postId = String.valueOf(random.nextInt()) +
+                    Objects.hashCode(feedPostRequest.getUserName() + " " + feedPostRequest.getQueryKeyword());
             if (postId.startsWith("-")) {
                 return postId.substring(1);
             }
