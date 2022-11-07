@@ -78,9 +78,6 @@ public class FeedController {
         }
 
         return new ResponseEntity<>(feeds,HttpStatus.OK);
-
     }
-
-
 
 }
