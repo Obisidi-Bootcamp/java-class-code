@@ -78,7 +78,4 @@ public class FeedMediaController {
         return new ResponseEntity<>(imageMetaData, HttpStatus.OK);
     }
 
-
-
-
 }
