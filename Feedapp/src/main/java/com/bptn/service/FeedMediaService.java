@@ -3,14 +3,14 @@ package com.bptn.service;
 import com.bptn.exceptions.InvalidImageMetaDataException;
 import com.bptn.models.ImageMetaData;
 import com.bptn.repository.FeedImageMetaDataRepository;
+import com.bptn.request.FeedMediaRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.util.*;
 
 @Service
 public class FeedMediaService {
@@ -51,24 +51,44 @@ public class FeedMediaService {
     }
 
 
-    public ImageMetaData createNewImage(ImageMetaData imageinfo){
+    public ImageMetaData createNewImage(FeedMediaRequest imageinfo) {
 
-            Optional<ImageMetaData> image = feedImageMetaDataRepository.findById(imageinfo.getImageid());
-            if (image.isPresent()){
-                ImageMetaData imageNew = image.get();
-                imageNew.setImageid(imageinfo.getImageid());
-                imageNew.setImagename(imageinfo.getImagename());
-                imageNew.setImagesize(imageinfo.getImagesize());
-                imageNew.setImageformat(imageinfo.getImageformat());
-                imageNew.setImagedate(imageinfo.getImagedate());
-                imageNew.setResolution(imageinfo.getResolution());
-                imageNew.setPostkey(imageinfo.getPostkey());
-                imageNew = feedImageMetaDataRepository.save(imageNew);
-                return imageNew;
-            } else{
-                imageinfo = feedImageMetaDataRepository.save(imageinfo);
-                return imageinfo;
-            }
+        String postkey = imageinfo.getPostkey();
+        String imageid = generateFeedMetadataId(postkey);
+
+        Optional<ImageMetaData> image = feedImageMetaDataRepository.findById(imageid);
+        ImageMetaData imageNew;
+
+        if (image.isPresent()) {
+            imageNew = image.get();
+        } else {
+            imageNew = new ImageMetaData();
+            imageNew.setImageid(imageid);
+        }
+
+        imageNew.setImagename(imageinfo.getImageName());
+        imageNew.setImagesize(imageinfo.getImageSize());
+        imageNew.setImageformat(imageinfo.getImageFormat());
+        imageNew.setImagedate(LocalDate.now()+"");
+        imageNew.setResolution(imageinfo.getResolution());
+        imageNew.setPostkey(postkey);
+        imageNew = feedImageMetaDataRepository.save(imageNew);
+        return imageNew;
+
+        }
+
+
+    private String generateFeedMetadataId(String postkey) {
+        Random random = new Random(System.currentTimeMillis());
+        StringBuilder imageIdBuilder = new StringBuilder();
+        imageIdBuilder.append(random.nextInt());
+        imageIdBuilder.append(Objects.hashCode(postkey));
+        String imageId = imageIdBuilder.toString();
+
+        if (imageId.startsWith("-")){
+            return imageId.substring(1);
+        }
+        return imageId;
     }
 
     private List<ImageMetaData> removeEmptyImages(List<ImageMetaData> media) {
