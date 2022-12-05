@@ -4,7 +4,7 @@ import com.bptn.exceptions.InvalidRequestException;
 import com.bptn.exceptions.InvalidUserCredentialsException;
 import com.bptn.models.UserID;
 import com.bptn.request.LoginRequest;
-//import com.bptn.request.SignupRequest;
+import com.bptn.request.SignupRequest;
 import com.bptn.response.JwtResponse;
 import com.bptn.response.LoginResponse;
 import com.bptn.service.JwtService;
@@ -56,13 +56,13 @@ public class LoginController {
 //    "password": "amit"
 //    }
 // */
-//
-//    @PostMapping("/user/signup")
-//    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) throws InvalidRequestException {
-//        LOGGER.debug("signup request received = {}",signupRequest);
-//        UserID userID = loginService.signup(signupRequest);
-//        return new ResponseEntity<>(userID, HttpStatus.OK);
-//    }
-//
-//
+
+    @PostMapping("/user/signup")
+    public ResponseEntity<?> signup(@RequestBody SignupRequest signupRequest) throws InvalidRequestException {
+        LOGGER.debug("signup request received = {}",signupRequest);
+        UserID userID = loginService.signup(signupRequest);
+        return new ResponseEntity<>(userID, HttpStatus.OK);
+    }
+
+
 }
