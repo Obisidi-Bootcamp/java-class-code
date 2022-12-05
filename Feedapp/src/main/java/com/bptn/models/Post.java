@@ -1,74 +1,75 @@
 package com.bptn.models;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import java.io.Serializable;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "\"Post\"")
-public class Post {
+@NamedQuery(name="Post.findAll", query="SELECT p FROM Post p")
+public class Post implements Serializable {
+
 
     @Id
-    @Column(name = "\"postID\"")
-    private String postID;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "\"postID\"", nullable = false)
+    private Long id;
 
-    @Column(name = "\"postType\"")
+    @Column(name = "\"postType\"", nullable = false)
     private String postType;
 
-    @Column(name = "\"post\"")
+
+    @Column(name = "post", nullable = false)
     private String post;
 
-    @Column(name = "\"usernameKey\"")
-    private String username;
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "\"usernameKey\"", nullable = false)
+    private String usernameKey;
 
+    @OneToMany(mappedBy = "postKey")
+    @JsonManagedReference
+    private Set<ImageMetaData> imageMetaData = new LinkedHashSet<>();
 
-    public Post() {
-        super();
+    public Set<ImageMetaData> getImageMetaData() {
+        return imageMetaData;
     }
 
-    public Post(String postID, String postType, String post, String username){
-        super();
-        this.postID = postID;
-        this.postType = postType;
-        this.post = post;
-        this.username = username;
+    public void setImageMetaData(Set<ImageMetaData> imageMetaData) {
+        this.imageMetaData = imageMetaData;
     }
 
-    public String getPostID(){
-        return this.postID;
+    public String getUsernameKey() {
+        return usernameKey;
     }
 
-    public void setPostID(String postID){
-        this.postID = postID;
+    public void setUsernameKey(String usernameKey) {
+        this.usernameKey = usernameKey;
     }
 
-    public String getPostType(){
-        return this.postType;
+    public String getPost() {
+        return post;
     }
 
-    public void setPostType(String postType){
-        this.postType = postType;
-    }
-
-    public String getPost(){
-        return this.post;
-    }
-
-    public void setPost(String post){
+    public void setPost(String post) {
         this.post = post;
     }
 
-    public String getUsername(){
-        return this.username;
+    public String getPostType() {
+        return postType;
     }
 
-    public void setUsername(String username){
-        this.username = username;
+    public void setPostType(String postType) {
+        this.postType = postType;
     }
 
+    public Long getId() {
+        return id;
+    }
 
-
-
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
